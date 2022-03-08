@@ -39,10 +39,27 @@ class Play_with_Tables:
             logging.info('inserting data............')
             mycursor.execute("INSERT INTO {} ({}) VALUES ({})".format(table_name,columns,values))
             logging.info("Data is inserted...")
+            mydb.commit()
             mydb.close()
         except Exception as e:
             logging.error(f"Data is not inserted...{e}")
+    def check_table(self,table_name = None):
+        try:
+            logging.info('---'*15)
+            logging.info('checking table............')
+            mydb = self.make_connection()
+            mycursor = mydb.cursor()
+            mycursor.execute("SELECT * FROM {}".format(table_name))
+
+            myresult = mycursor.fetchall()
+
+            for x in myresult:
+                print(x)
+                logging.info(f"Table is checked...\n {x}")
+        except Exception as e:
+            logging.error(f"Table is not checked...{e}")
 
 
 #Play_with_Tables(password='123456789',db_name='ne11').create_table(table_name='users',columns='id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(255),email VARCHAR(255),password VARCHAR(255)')
-Play_with_Tables(password='123456789',db_name='ne11').insert_data(table_name='users',columns='id,name,email,password',values="1,'dipendra','dipendra@gmail.com','123456789'")
+Play_with_Tables(password='123456789',db_name='ne11').insert_data(table_name='users',columns='id,name,email,password',values="3,'dipeasndra','dipendra@gmail.com','123456789'")
+Play_with_Tables(password='123456789',db_name='ne11').check_table(table_name='users')
